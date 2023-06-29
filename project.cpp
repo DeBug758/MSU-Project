@@ -261,17 +261,12 @@ Matrix<U> operator/(U scalar) const {
     return result;
 }
 
-/*template <typename U>
+template <typename U>
 void operator=(const Matrix<U>& other){
     rows = other.rows;
     cols = other.cols;
-    data.resize(rows, std::vector<T>(cols, 0));
-    for (unsigned int i = 0; i < rows; ++i) {
-        for (unsigned int j = 0; j < cols; ++j) {
-            data[i][j] = other[i][j];
-        }
-    }
-}*/
+    data = other.data;
+}
 
 template <typename U>
 Matrix<U> resetRow(unsigned int value){
