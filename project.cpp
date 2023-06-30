@@ -66,7 +66,7 @@ Matrix<U> getRow(int value) const{
     }
     Matrix<U> result(1, cols);
     for(int i = 0; i < cols; ++i){
-        result[0][i] = data[value][i];
+        result.data[0][i] = data[value][i];
     }
 
     return result;
@@ -89,7 +89,7 @@ Matrix<U> getCol(int value) const{
     }
     Matrix<U> result(rows, 1);
     for(int i = 0; i < rows; ++i){
-        result[i][0] = data[i][value];
+        result.data[i][0] = data[i][value];
     }
     
     return result;
@@ -261,6 +261,29 @@ Matrix<U> operator/(U scalar) const {
     return result;
 }
 
+T operator %(const Matrix <T>& other) {
+        T scalar{};
+        if (cols != other.cols  rows != other.rows)
+            exit(0); 
+
+        if ((cols != 1 && rows != 1)  (other.cols != 1 && other.rows != 1)) 
+            exit(0);
+        
+
+        if (cols != 1) {
+                for (int i{}; i < cols; i++) {
+                    scalar += data[0][i]*other.data[0][i];
+                }
+        }
+        
+        if (rows != 1) {
+            for (int i{}; i < rows; i++)
+                scalar += data[i][0] * other.data[i][0];
+        }
+        scalar = sqrt(scalar);
+        return scalar;
+}
+
 template <typename U>
 void operator=(const Matrix<U>& other){
     rows = other.rows;
@@ -422,11 +445,11 @@ const Matrix<T> inverse(){
 }
 
 int cond1() const{
-    return this.norm1() *  (this.inverse).norm1;
+    return this->norm1() *  (this.inverse()).norm1();
 }
 
 int cond2() const{
-    return this.norm2() *  (this.inverse).norm2;
+    return this->norm2() *  (this.inverse()).norm2();
 }
 
 Matrix<T> LU() const {
