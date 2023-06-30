@@ -520,47 +520,11 @@ double norm2() const{
     }
     return std::sqrt(sum);
 }
- 
-void qrDecomposition(Matrix<T>& Q, Matrix<T>& R) const {
+
+//TODO
+/*void qrDecomposition(Matrix<T>& Q, Matrix<T>& R) const {
         
-        if (data.empty() || data[0].empty()) {
-            std::cout << "Error: Empty matrix." << std::endl;
-            return;
-        }
-
-        unsigned int m = rows;
-        unsigned int n = cols;
-
-        for (unsigned int j = 0; j < n; ++j) {
-            std::vector<T> qj(m, 0.0);
-            for (unsigned int i = 0; i < m; ++i) {
-                qj[i] = Q.data[i][j];
-            }
-
-            for (unsigned int k = 0; k < j; ++k) {
-                double dot_product = 0.0;
-                for (unsigned int i = 0; i < m; ++i) {
-                    dot_product += Q.data[i][j] * R.data[k][i];
-                }
-                for (unsigned int i = 0; i < m; ++i) {
-                    qj[i] -= dot_product * R.data[k][i];
-                }
-            }
-
-            double norm_qj = norm(qj);
-            for (unsigned int i = 0; i < m; ++i) {
-                Q.data[i][j] = qj[i] / norm_qj;
-            }
-
-            for (unsigned int i = j; i < n; ++i) {
-                double dot_product = 0.0;
-                for (unsigned int k = 0; k < m; ++k) {
-                    dot_product += Q.data[k][i] * qj[k];
-                }
-                R.data[j][i] = dot_product;
-            }
-        }
-    }
+    }*/
 
   
 void Gaus(){
@@ -576,9 +540,6 @@ void Gaus(){
         if (maxRow != i) {
             std::swap(data[i], data[maxRow]);
         }
-  }
-        
-
     for (unsigned int i = 0; i < rows; ++i) {
       
       for (unsigned int k {i+1}; k < rows; ++k) {
@@ -592,6 +553,8 @@ void Gaus(){
     this->printMatrix();
   }
   }
+	
+void SVD();
 };
 
 
