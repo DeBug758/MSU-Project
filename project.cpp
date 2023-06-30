@@ -554,8 +554,7 @@ void Gaus(){
   }
   }
 	
-void SVD();
-};
+void relax();
 
 
 int main() {
