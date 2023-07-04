@@ -12,7 +12,7 @@ private:
 public:
 	Matrix(){
 	}
-	
+	 
     Matrix(unsigned int nmRows, unsigned int nmCols, T value = 0) : rows(nmRows), cols(nmCols) {
         data.resize(rows, std::vector<T>(cols, value));
     }
@@ -554,7 +554,49 @@ void Gaus(){
   }
   }
 	
-void relax();
+void relax(const vector<T>& y, int maxiter, double eps, double omega){
+	vector<T> x(rows, 0);
+	vector<T> New_x(rows);
+	int iter = 0;
+	T error = eps + 1.0;
+
+	while (iter < maxiter && error > eps){
+		error = 0;
+		for (int i = 0; i < rows; i++){
+			New_x[i] = function(y, x, i, omega);
+			T diff = abs(New_x[i] - x[i]);
+			if (diff > error){
+				error = diff;
+			}
+		}
+		x = New_x;
+		iter++;
+	}
+	if (iter >= maxiter) {
+            cout << "Failed to achieve the required accuracy for the specified number of iterations." << endl;
+        }
+        else {
+            cout << "The relaxation method converges after " << iter << " iteretions" << endl;
+        }
+
+        for (int i = 0; i < x.size(); i++){
+		cout << "x" << i << "= " << x[i] << endl;
+	}
+	
+}
+
+T function(const vector<T>& y, const vector<T>& x, int i, double omega) {
+        T sum = 0;
+        for (int j = 0; j < columns; j++) {
+            if (j != i) {
+                sum += data[i][j] * x[j];
+            }
+        }
+
+        T newX = (y[i] - sum) / data[i][i];
+        newX = omega * newX + (1.0 - omega) * x[i];
+        return newX;
+}
 
 
 int main() {
@@ -570,5 +612,6 @@ int main() {
     A.printMatrix();
     Matrix<double> C = A.inverse();
     C.printMatrix();
+    A.relax(y, 100, 0.1, 0.25);
     return 0;
 }
